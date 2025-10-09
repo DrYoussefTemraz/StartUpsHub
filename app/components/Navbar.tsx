@@ -34,9 +34,9 @@ const Navbar = async function Navbar() {
                                 <button type="submit">Logout</button>
                             </form>
                             {/* the data return from github are in user{name, email, image} */}
-                            <Link href={`/user/${session?.id}`}>
+                            {/* <Link href={`/user/${session?.id}`}> */}
                                 <span>{session?.user.name}</span>
-                            </Link>
+                            {/* </Link> */}
                         </>
 
                     ) :
