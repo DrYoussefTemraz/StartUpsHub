@@ -42,3 +42,5 @@ Link for "app Settings"
 https://github.com/settings/applications/3198106
 link to the pichfy 
 "https://github.com/JavaScript-Mastery-Pro/pitchify/tree/main"
+using the shadcn CLI
+"https://ui-private.shadcn.com/docs/cli"
