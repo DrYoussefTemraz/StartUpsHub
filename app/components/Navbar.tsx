@@ -12,7 +12,7 @@ const Navbar = async function Navbar() {
             <nav className="flex justify-between items-center">
                 <Link href="/">
                     <Image
-                        src="/next.svg"
+                        src="/logo.png"
                         alt="Logo"
                         width={144}
                         height={3}
