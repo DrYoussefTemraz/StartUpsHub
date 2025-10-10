@@ -40,3 +40,5 @@ this is for test
 
 Link for "app Settings"
 https://github.com/settings/applications/3198106
+link to the pichfy 
+"https://github.com/JavaScript-Mastery-Pro/pitchify/tree/main"
