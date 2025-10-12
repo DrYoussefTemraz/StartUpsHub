@@ -1,7 +1,12 @@
 import Image from "next/image";
-import SearchForm from "../components/SearchForm";
+import SearchForm from "../../components/SearchForm";
 
-export default function Home() {
+export default async function Home(
+  {searchParams}:
+  {searchParams: 
+    {query?: string}
+  }) {
+    const query = (await searchParams).query
   return (
     <>
 
@@ -9,16 +14,16 @@ export default function Home() {
         <h1
           className="heading"
         >
-          Pich your startup
+          My Children Achievments
           <br />
-          Connect with Enterpreneures
+          Taher & Mariam 
         </h1>
         <p
           className="sub-heading !max-w-3xl"
         >
-          Submit an Idea, vote on pitches, Get noticed in the compitition
+          Submit an Idea, vote on Achievment, Get noticed in the compitition
         </p>
-        <SearchForm />
+        <SearchForm query = {query}/>
       </section>
     </>
   );
