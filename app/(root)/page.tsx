@@ -45,7 +45,7 @@ export default async function Home(
         </p>
         <SearchForm query={query} />
       </section>
-      <section>
+      <section className="section_container">
         <p>
           {query ? `search for the ${query}` : "All Startups"
           }
@@ -64,3 +64,4 @@ export default async function Home(
     </>
   );
 }
+
