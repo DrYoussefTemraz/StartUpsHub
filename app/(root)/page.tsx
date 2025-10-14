@@ -45,12 +45,12 @@ export default async function Home(
         </p>
         <SearchForm query={query} />
       </section>
-      <section>
+      <section className="section_container">
         <p>
           {query ? `search for the ${query}` : "All Startups"
           }
         </p>
-        <ul className="mt-7 card-grid ">
+        <ul className="mt-7 card_grid ">
           {posts.length > 0
             // TODO --> Make the types with Sanity lib
             ? posts.map((post: any, index: number) => (
@@ -64,3 +64,4 @@ export default async function Home(
     </>
   );
 }
+
