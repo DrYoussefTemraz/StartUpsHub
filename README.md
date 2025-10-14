@@ -44,3 +44,7 @@ link to the pichfy
 "https://github.com/JavaScript-Mastery-Pro/pitchify/tree/main"
 using the shadcn CLI
 "https://ui-private.shadcn.com/docs/cli"
+using Sanity -  cos - content operating system;
+https://www.sanity.io/
+account 104753yoyo@gmail.com
+pw Joesam@1234
