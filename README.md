@@ -50,3 +50,9 @@ account 104753yoyo@gmail.com
 pw Joesam@1234
 
 cli -->  command line interface
+Gerneration of the types of data --> sanity type generation 
+commmand for extracting the schemas "npx sanity@latest schema extract --path=./sanity/extract.json"
+but update the sanity-typegen.json file
+command for generating the types "npx sanity@latest typegen generate"
+Automatic update the schemas type via edit the package.json script and just type npm run typegen
+
