@@ -48,3 +48,5 @@ using Sanity -  cos - content operating system;
 https://www.sanity.io/
 account 104753yoyo@gmail.com
 pw Joesam@1234
+
+cli -->  command line interface
