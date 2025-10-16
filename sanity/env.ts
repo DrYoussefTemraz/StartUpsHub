@@ -18,3 +18,18 @@ function assertValue<T>(v: T | undefined, errorMessage: string): T {
 
   return v
 }
+
+function cleanApiVersion(v: string | undefined): string {
+  const fallback = '2024-10-01'
+  const raw = (v ?? fallback).trim()
+  const normalized = raw.startsWith('v') ? raw.slice(1) : raw
+
+  // Accept either '1' or a date string YYYY-MM-DD
+  const valid = /^(1|\d{4}-\d{2}-\d{2})$/.test(normalized)
+  if (!valid) {
+    throw new Error(
+      `Invalid NEXT_PUBLIC_SANITY_API_VERSION: "${raw}". Expected '1' or 'YYYY-MM-DD'`
+    )
+  }
+  return normalized
+}
