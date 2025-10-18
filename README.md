@@ -57,3 +57,5 @@ command for generating the types "npx sanity@latest typegen generate"
 Automatic update the schemas type via edit the package.json script and just type npm run typegen
 
 cashes the data and using server-only package 
+understanding partial pre rendering in next js in building the items details page 
+
