@@ -1,3 +1,4 @@
+import { formatDate } from '@/lib/utils'
 import { client } from '@/sanity/lib/client'
 import { sanityFetch } from '@/sanity/lib/live'
 import { STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries'
@@ -6,16 +7,32 @@ import React from 'react'
 
 export const experimental_ppr = true
 
- const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
+const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params).id
-    const post  = await client.fetch( STARTUP_BY_ID_QUERY, { id })
+    const post = await client.fetch(STARTUP_BY_ID_QUERY, { id })
     if (!post) return notFound()
-     
-  
-  return (
-    <div className='text-3xl'>The startup title is: {post.title}</div>
 
-  )
+
+    return (
+        <>
+            <section className='pink_container !min-h-[230px]'>
+                <p className='tag'>
+                    {formatDate(post._createdAt)}
+                </p>
+                <h1 className='heading'>{post.title}</h1>
+                <p className='sub-heading'>{post.description}</p>
+            </section>
+            <section className='section_container'>
+                <img
+                src={post.image}
+                alt='thumbnail'
+                className='w-full h-auto rouded-full'             
+                />
+            </section>
+        </>
+
+
+    )
 }
 
 export default Page
