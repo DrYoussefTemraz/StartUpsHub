@@ -58,4 +58,5 @@ Automatic update the schemas type via edit the package.json script and just type
 
 cashes the data and using server-only package 
 understanding partial pre rendering in next js in building the items details page 
+markdown parseer package -> markdown-it 
 
