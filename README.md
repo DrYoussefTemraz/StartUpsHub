@@ -62,5 +62,9 @@ markdown parseer package -> markdown-it
 in author authentication flow we recommend to make the cash in cdn false to update the data of users directly.
 
 to add the markdown into the form of create a startup use the @uiw/react-md-editor
+submitting the create form 
+useActionState is a Hook that allows you to update state based on the result of a form action.
+
+const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
 
 
