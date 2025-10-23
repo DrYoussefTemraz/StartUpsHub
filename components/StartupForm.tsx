@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea";
+import MDEditor from '@uiw/react-md-editor';
+
 
 const StartupForm = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [pitch, setPitch] = useState("**Hello world!!!**");
 
     return (
         <form
@@ -52,7 +55,7 @@ const StartupForm = () => {
                 />
                 {errors.category && <p className="startup-form_error">{errors.category}</p>}
             </div>
-{/* Image */}
+            {/* Image */}
             <div>
                 <label htmlFor="link" className="startup-form_label">Image URL</label>
                 <Input
@@ -63,6 +66,16 @@ const StartupForm = () => {
                     placeholder="Startup Image Url"
                 />
                 {errors.link && <p className="startup-form_error">{errors.link}</p>}
+            </div>
+            {/* Pitch */}
+            <div data-color-mode="light">
+                <label htmlFor="pitch" className="startup-form_label">Pitch</label>
+                <MDEditor
+                    id="pitch"
+                    value={pitch}
+                    onChange={(value)=>setPitch(value as string)}
+                />
+                {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
             </div>
         </form>
     )

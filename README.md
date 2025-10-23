@@ -61,3 +61,6 @@ understanding partial pre rendering in next js in building the items details pag
 markdown parseer package -> markdown-it 
 in author authentication flow we recommend to make the cash in cdn false to update the data of users directly.
 
+to add the markdown into the form of create a startup use the @uiw/react-md-editor
+
+
