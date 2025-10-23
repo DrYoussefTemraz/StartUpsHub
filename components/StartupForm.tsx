@@ -1,21 +1,73 @@
 "use client"
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea";
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
-
+import { formSchema } from "@/lib/validation";
+import { z } from "zod";
+import { toast } from "sonner"
+// import { useRouter } from "next/navigation";
 
 const StartupForm = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [pitch, setPitch] = useState("**Hello world!!!**");
-    const isPending = false;
+    // const {router} = useRouter();
+    // useActionState is a Hook that allows you to update state based on the result of a form action.
+    // 1- Action function
+    const handleFormSubmit = async (prevState: any, formData: FormData,) => {
+        try {
+            const formValues = {
+                title: formData.get('title') as string,
+                description: formData.get('description') as string,
+                category: formData.get('category') as string,
+                link: formData.get('link') as string,
+                pitch,
+            }
+            await formSchema.parseAsync(formValues);
+            console.log(formValues)
+            // const result = await creatIdea(prevState, formValues,pitch)
+            // console.log(result)
+            // if(result.status === 'Success'){
+            //     toast.success(
+            // "Success",   
+            //         {description: "Startup created successfully",}
+            //     )
+            //     router.push(`/startup/${result.id}`);
+            // }
+            // return result;
+
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const fieldErrors = error.flatten().fieldErrors;
+                setErrors(fieldErrors as unknown as Record<string, string>)
+                toast.error(
+                    "Validation Error",
+                    { description: "Please check the form for errors", }
+                )
+                return { ...prevState, error: 'Validation failed', status: 'Error' }
+            }
+        }
+        toast.error(
+            "Validation Error",
+            { description: "Please check the form for errors", }
+        )
+        return { ...prevState, error: 'unexpected error has occured', status: 'Error' }
+    }
+
+    const [state, formAction, isPending] = useActionState(
+        handleFormSubmit,
+        { error: '', status: 'Initial' },
+
+    );
+
+
 
     return (
         <form
-            action={() => { }}
+            action={formAction}
             className='startup-form'
         >
             {/* title */}
@@ -94,11 +146,11 @@ const StartupForm = () => {
             </div>
             <Button
                 type="submit"
-                className="startup-form_btn text-white"   
+                className="startup-form_btn text-white"
                 disabled={isPending}
             >
-            {isPending ? "Submitting..." : "Submit your Pitch"}
-            <Send className='size-6 m-l-2' />
+                {isPending ? "Submitting..." : "Submit your Pitch"}
+                <Send className='size-6 m-l-2' />
             </Button>
         </form>
     )
