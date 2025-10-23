@@ -59,4 +59,5 @@ Automatic update the schemas type via edit the package.json script and just type
 cashes the data and using server-only package 
 understanding partial pre rendering in next js in building the items details page 
 markdown parseer package -> markdown-it 
+in author authentication flow we recommend to make the cash in cdn false to update the data of users directly.
 
