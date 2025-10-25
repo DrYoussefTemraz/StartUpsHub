@@ -9,7 +9,7 @@ import { Send } from "lucide-react";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { toast } from "sonner"
-import { createPitch } from "@/lib/actions";
+import { createIdea } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 
 const StartupForm = () => {
@@ -17,52 +17,69 @@ const StartupForm = () => {
     const [pitch, setPitch] = useState("**Hello world!!!**");
     const router = useRouter();
     // useActionState is a Hook that allows you to update state based on the result of a form action.
-    // 1- Action function
-    const handleFormSubmit = async (prevState: any, formData: FormData,) => {
+   
+    const [state, formAction, isPending] = useActionState(handleFormSubmit, {
+        error: "",
+        status: "IDEAL",
+    });
+ // 1- Action function
+    async function handleFormSubmit(prevState: any, formData: FormData) {
         try {
             const formValues = {
-                title: formData.get('title') as string,
-                description: formData.get('description') as string,
-                category: formData.get('category') as string,
-                link: formData.get('link') as string,
+                title: formData.get("title") as string,
+                description: formData.get("description") as string,
+                category: formData.get("category") as string,
+                link: formData.get("link") as string,
                 pitch,
-            }
+            };
+
+            // Validate form values
             await formSchema.parseAsync(formValues);
-            // console.log(formValues)
-            const result = await createPitch(prevState, formData, pitch)
-            console.log(result._id)
-            if(result.status === 'Success'){
-                toast.success(
-            "Success",   
-                    {description: "Startup created successfully",}
-                )
+
+            // Create the idea and handle the result
+            const result = await createIdea(prevState, formData, pitch);
+            console.log({ result });
+
+            if (result.status === "SUCCESS") {
+                toast(
+                     "Success",
+                     {
+                        description: "Your idea has been created successfully",
+                     }
+                );
+
                 router.push(`/startup/${result._id}`);
             }
             return result;
-
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors = error.flatten().fieldErrors;
-                setErrors(fieldErrors as unknown as Record<string, string>)
-                toast.error(
-                    "Validation Error",
-                    { description: "Please check the form for errors", }
-                )
-                return { ...prevState, error: 'Validation failed', status: 'Error' }
+                setErrors(fieldErrors as unknown as Record<string, string>);
+
+                toast(
+                    "Error",
+                    {
+                        description: "Please check your input and try again",
+                    }
+                );
+
+                return { ...prevState, error: "Validation failed", status: "ERROR" };
             }
+
+            toast(
+                "Error",
+                {description: "An unexpected error occurred"}
+            );
+
+            return {
+                ...prevState,
+                error: "An unexpected error occurred",
+                status: "ERROR",
+            };
+        } finally {
+            setPitch("");
         }
-        toast.error(
-            "Validation Error",
-            { description: "Please check the form for errors", }
-        )
-        return { ...prevState, error: 'unexpected error has occured', status: 'Error' }
     }
-
-    const [state, formAction, isPending] = useActionState(
-        handleFormSubmit,
-        { error: '', status: 'Initial' },
-
-    );
 
 
 
