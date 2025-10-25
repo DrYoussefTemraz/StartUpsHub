@@ -1,8 +1,11 @@
+import NextAuth from "next-auth";
+
 declare module "next-auth" {
   interface Session {
-    id: string;
+    id: string; // Add the custom field here
   }
-  interface jwt {
-    id: string;
+
+  interface JWT {
+    id: string; // Add the custom field to the token
   }
 }
