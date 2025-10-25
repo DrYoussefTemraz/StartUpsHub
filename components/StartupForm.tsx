@@ -9,12 +9,13 @@ import { Send } from "lucide-react";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { toast } from "sonner"
-// import { useRouter } from "next/navigation";
+import { createPitch } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
 const StartupForm = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [pitch, setPitch] = useState("**Hello world!!!**");
-    // const {router} = useRouter();
+    const router = useRouter();
     // useActionState is a Hook that allows you to update state based on the result of a form action.
     // 1- Action function
     const handleFormSubmit = async (prevState: any, formData: FormData,) => {
@@ -27,17 +28,17 @@ const StartupForm = () => {
                 pitch,
             }
             await formSchema.parseAsync(formValues);
-            console.log(formValues)
-            // const result = await creatIdea(prevState, formValues,pitch)
-            // console.log(result)
-            // if(result.status === 'Success'){
-            //     toast.success(
-            // "Success",   
-            //         {description: "Startup created successfully",}
-            //     )
-            //     router.push(`/startup/${result.id}`);
-            // }
-            // return result;
+            // console.log(formValues)
+            const result = await createPitch(prevState, formData, pitch)
+            console.log(result._id)
+            if(result.status === 'Success'){
+                toast.success(
+            "Success",   
+                    {description: "Startup created successfully",}
+                )
+                router.push(`/startup/${result._id}`);
+            }
+            return result;
 
         } catch (error) {
             if (error instanceof z.ZodError) {
