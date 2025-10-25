@@ -70,6 +70,6 @@ understanding the server actions go to the link https://www.youtube.com/watch?v=
 
 performance and bug tracking using sentry `https://sentry.io/`
 
-SENTRY_AUTH_TOKEN=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
+SENTRY_AUTH_TOKEN will be found in the file .env.sentry-build-plugin
 
 SENTRY_ORG=youssef-wm
