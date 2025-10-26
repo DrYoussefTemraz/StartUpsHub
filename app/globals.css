@@ -241,3 +241,12 @@
 .w-md-editor-toolbar {
   padding: 10px !important;
 }
+
+/* Sentry feedback button position override (uses CSS variables per docs) */
+#sentry-feedback {
+  /* Keep it bottom-right, but push it left by increasing right page margin */
+  /* top right bottom left */
+  --page-margin: 24px 84px 84px 84px;
+  /* Alternatively, to control exact corner positioning, you can use --inset:
+     --inset: auto 200px 24px auto; */
+}
