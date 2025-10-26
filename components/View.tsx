@@ -29,7 +29,7 @@ async function View({ id }: { id: string }) {
                 <Ping />
             </div>
             <p className='view-text'>
-                <span className='font-black'>views = {totalViews} </span>
+                <span className='font-black'>views: {totalViews} </span>
             </p>
         </div>
     )

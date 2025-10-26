@@ -73,3 +73,7 @@ performance and bug tracking using sentry `https://sentry.io/`
 SENTRY_AUTH_TOKEN will be found in the file .env.sentry-build-plugin
 
 SENTRY_ORG=youssef-wm
+
+parllel fetching and installation of awwwards
+https://www.awwwards.com/
+
