@@ -5,7 +5,7 @@ import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea";
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from "./ui/button";
-import { Send } from "lucide-react";
+import { Send, Trash2, ExternalLink } from "lucide-react";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { toast } from "sonner"
@@ -17,12 +17,40 @@ const StartupForm = () => {
     const [pitch, setPitch] = useState("**Hello world!!!**");
     const router = useRouter();
     // useActionState is a Hook that allows you to update state based on the result of a form action.
-   
+
+    const [uploading, setUploading] = useState(false);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [inputMode, setInputMode] = useState<'upload' | 'url'>('upload');
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await res.json();
+        setUploading(false);
+
+        if (data.url) {
+            setImageUrl(data.url);
+            toast("✅ Image uploaded successfully!");
+        } else {
+            toast("❌ Image upload failed");
+        }
+    };
+
     const [state, formAction, isPending] = useActionState(handleFormSubmit, {
         error: "",
         status: "IDEAL",
     });
- // 1- Action function
+    // 1- Action function
     async function handleFormSubmit(prevState: any, formData: FormData) {
         try {
             const formValues = {
@@ -42,10 +70,10 @@ const StartupForm = () => {
 
             if (result.status === "SUCCESS") {
                 toast(
-                     "Success",
-                     {
+                    "Success",
+                    {
                         description: "Your idea has been created successfully",
-                     }
+                    }
                 );
 
                 router.push(`/startup/${result._id}`);
@@ -68,7 +96,7 @@ const StartupForm = () => {
 
             toast(
                 "Error",
-                {description: "An unexpected error occurred"}
+                { description: "An unexpected error occurred" }
             );
 
             return {
@@ -130,14 +158,86 @@ const StartupForm = () => {
             </div>
             {/* Image */}
             <div>
-                <label htmlFor="link" className="startup-form_label">Image URL</label>
-                <Input
-                    id="link"
-                    name="link"
-                    className="startup-form_input"
-                    required
-                    placeholder="Startup Image Url"
-                />
+                <label htmlFor="link" className="startup-form_label">Image</label>
+                <div className="flex items-center gap-2 mb-2">
+                    <Button
+                        type="button"
+                        size="sm"
+                        variant={inputMode === 'upload' ? 'default' : 'outline'}
+                        onClick={() => setInputMode('upload')}
+                    >
+                        Upload
+                    </Button>
+                    <Button
+                        type="button"
+                        size="sm"
+                        variant={inputMode === 'url' ? 'default' : 'outline'}
+                        onClick={() => setInputMode('url')}
+                    >
+                        Paste URL
+                    </Button>
+                </div>
+
+                {inputMode === 'upload' && (
+                    <Input
+                        id="file"
+                        name="file"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="startup-form_input"
+                    />
+                )}
+
+                {inputMode === 'url' && (
+                    <div className="flex items-center gap-2">
+                        <Input
+                            id="link"
+                            name="link-input"
+                            type="url"
+                            placeholder="https://example.com/image.jpg"
+                            className="startup-form_input flex-1"
+                            value={imageUrl ?? ''}
+                            onChange={(e) => setImageUrl(e.target.value)}
+                        />
+                    </div>
+                )}
+
+                {uploading && inputMode === 'upload' && (
+                    <p className="text-sm text-gray-500">Uploading...</p>
+                )}
+
+                {imageUrl && (
+                    <div className="mt-3 rounded-xl border bg-muted/30 p-3">
+                        <div className="flex items-start gap-3">
+                            <img
+                                src={imageUrl}
+                                alt="Preview"
+                                className="h-20 w-20 rounded-lg object-cover border"
+                            />
+                            <div className="min-w-0 flex-1">
+                                <p className="text-sm text-muted-foreground truncate">{imageUrl}</p>
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    <Button type="button" variant="secondary" asChild>
+                                        <a href={imageUrl} target="_blank" rel="noreferrer">
+                                            <ExternalLink className="h-4 w-4 mr-1" />
+                                            Preview
+                                        </a>
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        onClick={() => setImageUrl(null)}
+                                    >
+                                        <Trash2 className="h-4 w-4 mr-1" />
+                                        Remove
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="link" value={imageUrl} />
+                    </div>
+                )}
                 {errors.link && <p className="startup-form_error">{errors.link}</p>}
             </div>
             {/* Pitch */}
