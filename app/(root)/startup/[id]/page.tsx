@@ -37,7 +37,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 <div className='space-y-5 mt-10 maw-w-4xl mx-auto'>
                     <div className='flex-between gap-5'>
                         <Link
-                            href={`/user/${post.author?.id ?? ''}`}
+                            href={`/user/${post.author?._id ?? ''}`}
                             className='flex mb-3 gap-2 items-center'>
                             {post.author?.image ? (
                                 <Image
