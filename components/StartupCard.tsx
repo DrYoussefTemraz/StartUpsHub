@@ -1,5 +1,5 @@
 import { cn, formatDate } from '@/lib/utils'
-import { EyeIcon } from 'lucide-react'
+import { EyeIcon, UserIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -43,15 +43,21 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
                         <h3 className='text-26-semibold line-clamp-1'>{title}</h3>
                     </Link>
                 </div>
-                <Link href={`/user/${author?._id}`}>
-                    <Image
-                        src={author?.image || ''}
-                        alt={author?.name ? author.name : 'Author avatar'}
-                        width={48}
-                        height={48}
-                        className='rounded-full'
-                    />
-                </Link>
+                {author?.image ? (
+                    <Link href={`/user/${author?._id}`}>
+                        <Image
+                            src={author.image}
+                            alt={author?.name ? author.name : 'Author avatar'}
+                            width={48}
+                            height={48}
+                            className="rounded-full"
+                        />
+                    </Link>
+                ) : (
+                    <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center text-sm font-medium">
+                        {(author?.username?.[0] || <UserIcon />)}
+                    </div>
+                )}
             </div>
             <Link href={`/startup/${_id}`}>
                 <p className='startup-card_desc'>
@@ -76,12 +82,12 @@ const StartupCard = ({ post }: { post: StartupCardType }) => {
 }
 export const StartupCardSkeleton = () => (
     <>
-      {[0, 1, 2, 3, 4].map((_, index: number) => (
-        <li key={cn("skeleton", index)}>
-          <Skeleton className="startup-card_skeleton" />
-        </li>
-      ))}
+        {[0, 1, 2, 3, 4].map((_, index: number) => (
+            <li key={cn("skeleton", index)}>
+                <Skeleton className="startup-card_skeleton" />
+            </li>
+        ))}
     </>
-  );
+);
 
 export default StartupCard
