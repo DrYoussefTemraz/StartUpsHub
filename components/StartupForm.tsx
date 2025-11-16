@@ -66,7 +66,6 @@ const StartupForm = () => {
 
             // Create the idea and handle the result
             const result = await createIdea(prevState, formData, pitch);
-            console.log({ result });
 
             if (result.status === "SUCCESS") {
                 toast(
